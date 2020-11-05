@@ -46,10 +46,10 @@ function screenOptions(route, color){
                 iconName = "heart-outline"
                 break;
                 case "search":
-                    iconName = "star-outline"
+                    iconName = "magnify"
                     break;
                     case "acounts":
-                        iconName = "star-outline"
+                        iconName = "home-outline"
                         break;
                         case "top-restaurants":
                             iconName = "star-outline"
