@@ -15,7 +15,7 @@ export default function Modal(props){
     return (
         <Overlay
         isVisible={isVisible}
-        windowBackgroundColor="rgba(0,0,0.5)"
+        windowBackgroundColor="#7A7979bf"
         overlayBackgroundColor="transparent"
         overlayStyle={styles.overlay}
         onBackdropPress={closemodal}
