@@ -8,7 +8,7 @@ import {filter, map, size} from "lodash";
 import * as Location from "expo-location";
 import MapView from "react-native-maps";
 
-
+//puto
 import Modal from "../Modal";
 
 const widthScreen = Dimensions.get("window").width;
