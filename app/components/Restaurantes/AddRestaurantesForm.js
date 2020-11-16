@@ -6,6 +6,7 @@ import * as Permissions from "expo-permissions";
 import * as ImagePicker from "expo-image-picker";
 import {filter, map, size} from "lodash";
 import * as Location from "expo-location";
+import MapView from "react-native-maps";
 
 
 import Modal from "../Modal";
