@@ -18,8 +18,19 @@ export default function AddrestauranteForm(props) {
   const [restaurantname, setRestaurantname] = useState("");
   const [imgselected, setImgselected] = useState([]);
   const [isVisibleMap, setIsVisibleMap] = useState(false);
+  const [locationRestaurante, setLocationRestaurant] = useState(null);
 
-  const addrestaurante = () => {};
+  const addrestaurante = () => {
+    if (!restaurantname || !restaurantadres || !restaurantdescrip) {
+      toastRef.current.show("Todos los campos del formulario son obligatorios");
+    } else if (size(imgselected) === 0) {
+      toastRef.current.show("El restaurante debe tener al menos una imagen");
+    } else if (!locationRestaurante) {
+      toastRef.current.show("Debe localizar el Restaurante en el mapa");
+    } else {
+      console.log("ok");
+    }
+  };
 
   return (
     <ScrollView style={style.scroll}>
@@ -30,6 +41,7 @@ export default function AddrestauranteForm(props) {
         setRestaurantadres={setRestaurantadres}
         setRestaurantdescrip={setRestaurantdescrip}
         setIsVisibleMap={setIsVisibleMap}
+        locationRestaurante={locationRestaurante}
       />
 
       <Imgadd
@@ -47,6 +59,7 @@ export default function AddrestauranteForm(props) {
         toastRef={toastRef}
         isVisibleMap={isVisibleMap}
         setIsVisibleMap={setIsVisibleMap}
+        setLocationRestaurant={setLocationRestaurant}
       />
     </ScrollView>
   );
@@ -75,6 +88,7 @@ function Formadd(props) {
     setRestaurantadres,
     setRestaurantdescrip,
     setIsVisibleMap,
+    locationRestaurante,
   } = props;
 
   return (
@@ -92,7 +106,7 @@ function Formadd(props) {
         rightIcon={{
           type: "material-community",
           name: "google-maps",
-          color: "#c2c2c2",
+          color: locationRestaurante ? "#00a680" : "#c2c2c2",
           onPress: () => setIsVisibleMap(true),
         }}
       ></Input>
@@ -111,7 +125,8 @@ function Formadd(props) {
 // Funcion para cargar mapa
 
 function Map(props) {
-  const { isVisibleMap, setIsVisibleMap, toastRef } = props;
+  const { isVisibleMap, setIsVisibleMap, toastRef, setLocationRestaurant } =
+    props;
   const [location, setLocation] = useState(null);
 
   useEffect(() => {
@@ -137,6 +152,12 @@ function Map(props) {
     })();
   }, []);
 
+  const confirmLocation = () => {
+    setLocationRestaurant(location);
+    toastRef.current.show("Localizacion guardada correctamente");
+    setIsVisibleMap(false);
+  };
+
   return (
     <Modal isVisible={isVisibleMap} setVisible={setIsVisibleMap}>
       <View>
@@ -156,6 +177,20 @@ function Map(props) {
             />
           </MapView>
         )}
+        <View style={style.viewMapBtn}>
+          <Button
+            title="Guardar ubicacion"
+            containerStyle={style.ViewBtnContainerSave}
+            buttonStyle={style.vewMapBtnSave}
+            onPress={confirmLocation}
+          />
+          <Button
+            title="Cancelar ubicacion"
+            containerStyle={style.vieMapBtnCancel}
+            buttonStyle={style.vieStyleBtnCancel}
+            onPress={() => setIsVisibleMap(false)}
+          />
+        </View>
       </View>
     </Modal>
   );
@@ -288,5 +323,22 @@ const style = StyleSheet.create({
   mapStyle: {
     width: "100%",
     height: 550,
+  },
+  viewMapBtn: {
+    flexDirection: "row",
+    justifyContent: "center",
+    marginTop: 10,
+  },
+  vieMapBtnCancel: {
+    paddingLeft: 5,
+  },
+  vieStyleBtnCancel: {
+    backgroundColor: "#a60d0d",
+  },
+  ViewBtnContainerSave: {
+    paddingRight: 5,
+  },
+  vewMapBtnSave: {
+    backgroundColor: "#00a680",
   },
 });
